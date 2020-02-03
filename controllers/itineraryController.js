@@ -5,7 +5,7 @@ module.exports = {
     console.log("controller hit");
     const { url } = req.params;
     const Itinerary = { url, date: Date.now() };
-    db.Itinerary.create(Itinerary, (err, Class) => {
+    db.Itinerary.create(Itinerary, (err, Itinerary) => {
       if (err) {
         console.log(err);
       }

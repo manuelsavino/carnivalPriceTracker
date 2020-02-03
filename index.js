@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer");
 var cron = require("node-cron");
 const mongoose = require("mongoose");
 const ItineraryController = require("./controllers/itineraryController");
-const routes = require("./routes/itineraries");
+const routes = require("./routes/index");
 require("dotenv").config();
 
 mongoose.connect(
