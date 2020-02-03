@@ -1,14 +1,14 @@
 const express = require("express");
 const app = express();
-const fetch = require("node-fetch");
 const puppeteer = require("puppeteer");
 var cron = require("node-cron");
 const mongoose = require("mongoose");
 const ItineraryController = require("./controllers/itineraryController");
-const db = require("./models");
+const routes = require("./routes/itineraries");
+require("dotenv").config();
 
 mongoose.connect(
-  "mongodb://admin:ccl1013902@ds353358.mlab.com:53358/cclpricetracker",
+  `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}`,
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
@@ -35,10 +35,7 @@ cron.schedule("0 8 * * *", () => {
   });
 });
 
-app.get("/new/:url", ItineraryController.newTracker);
-app.get("/itins/", ItineraryController.getAllItins);
-
-app.get("/itins/:id/:price", ItineraryController.updatePricing);
+app.use(routes);
 
 app.listen(3000, function() {
   console.log("listening on 3000");
