@@ -6,7 +6,6 @@ module.exports = {
     const user = {
       identifier: `${faker.random.word()}${faker.random.number()}`
     };
-
     db.User.create(user, (err, user) => {
       if (err) {
         console.log(err);
@@ -20,7 +19,6 @@ module.exports = {
     });
   },
   getOneUser(req, res) {
-    console.log("getone hit");
     const { identifier } = req.params;
     db.User.findOne({ identifier }, (err, user) => {
       res.json(user);

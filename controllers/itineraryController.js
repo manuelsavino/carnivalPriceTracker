@@ -2,7 +2,6 @@ const db = require("../models");
 
 module.exports = {
   newTracker(req, res) {
-    console.log("controller hit");
     const { url } = req.params;
     const Itinerary = { url, date: Date.now() };
     db.Itinerary.create(Itinerary, (err, Itinerary) => {
@@ -43,5 +42,11 @@ module.exports = {
         res.status(200).json(upd);
       }
     );
+  },
+  deleteOne(req, res) {
+    const { id: _id } = req.params;
+    db.Itinerary.findOneAndDelete({ _id }, (err, deleted) => {
+      res.json(deleted);
+    });
   }
 };
