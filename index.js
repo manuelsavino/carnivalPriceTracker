@@ -16,7 +16,7 @@ cron.schedule("* * * * *", () => {
   ItineraryController.getAll().then(itins => {
     itins.forEach(each => {
       (async () => {
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch();
         const page = await browser.newPage();
         page.setViewport({ width: 1366, height: 768 });
         await page.goto(`https://${each.url}`);
