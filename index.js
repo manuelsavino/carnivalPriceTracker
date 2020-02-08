@@ -12,7 +12,7 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
-cron.schedule("* * * * *", () => {
+cron.schedule("0 1,13 * * *", () => {
   ItineraryController.getAll().then(itins => {
     itins.forEach(each => {
       (async () => {
