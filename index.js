@@ -6,13 +6,14 @@ const mongoose = require("mongoose");
 const ItineraryController = require("./controllers/itineraryController");
 const routes = require("./routes/index");
 require("dotenv").config();
+var cors = require("cors");
 
 mongoose.connect(
   `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}`,
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
-cron.schedule("* * * * *", () => {
-  // cron.schedule("0 1,13 * * *", () => {
+
+cron.schedule("0 1,13 * * *", () => {
   ItineraryController.getAll().then(itins => {
     if (itins.length > 0) {
       itins.forEach(each => {
@@ -43,6 +44,6 @@ cron.schedule("* * * * *", () => {
 
 app.use(routes);
 
-app.listen(3000, function() {
-  console.log("listening on 3000");
+app.listen(process.env.PORT, function() {
+  console.log(`listening on ${process.env.PORT}`);
 });
