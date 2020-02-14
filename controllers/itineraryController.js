@@ -31,6 +31,15 @@ module.exports = {
       }
     );
   },
+  updatePricingfromScrape(_id, price) {
+    db.Itinerary.updateOne(
+      { _id },
+      { $push: { prices: { price: price, date: Date.now() } } },
+      (err, upd) => {
+        return upd;
+      }
+    );
+  },
 
   update(_id, itin) {
     db.Itinerary.updateOne({ _id }, itin, (err, upd) => {

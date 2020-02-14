@@ -18,7 +18,7 @@ cron.schedule("0 1,13 * * *", () => {
     if (itins.length > 0) {
       itins.forEach(each => {
         (async () => {
-          const browser = await puppeteer.launch();
+          const browser = await puppeteer.launch({ headless: false });
           const page = await browser.newPage();
           page.setViewport({ width: 1366, height: 768 });
           await page.goto(`https://${each.url}`);
@@ -31,10 +31,9 @@ cron.schedule("0 1,13 * * *", () => {
           await browser.close();
           if (price === "") {
             each.active = false;
-            console.log(each);
             ItineraryController.update(each.id, each);
           } else {
-            ItineraryController.updatePricing(each.id, price);
+            ItineraryController.updatePricingfromScrape(each.id, price);
           }
         })();
       });
