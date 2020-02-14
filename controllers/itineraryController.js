@@ -19,10 +19,10 @@ module.exports = {
   },
 
   async getAll() {
-    return await db.Itinerary.find({}).exec();
+    return await db.Itinerary.find({ active: true }).exec();
   },
 
-  update(_id, price) {
+  updatePricing(_id, price) {
     db.Itinerary.updateOne(
       { _id },
       { $push: { prices: { price: price, date: Date.now() } } },
@@ -32,8 +32,13 @@ module.exports = {
     );
   },
 
+  update(_id, itin) {
+    db.Itinerary.updateOne({ _id }, itin, (err, upd) => {
+      return upd;
+    });
+  },
+
   updatePricing(req, res) {
-    console.log("update hit");
     const { id: _id, price } = req.params;
     db.Itinerary.updateOne(
       { _id },
