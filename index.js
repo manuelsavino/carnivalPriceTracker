@@ -5,6 +5,7 @@ var cron = require("node-cron");
 const mongoose = require("mongoose");
 const ItineraryController = require("./controllers/itineraryController");
 const routes = require("./routes/index");
+const axios = require("axios");
 require("dotenv").config();
 var cors = require("cors");
 
@@ -39,6 +40,25 @@ cron.schedule("0 1,13 * * *", () => {
       });
     }
   });
+});
+
+app.get("/search", cors(), (req, res) => {
+  axios
+    .get("https://www.carnival.com/CruiseSearch/api/search?pastGuest=true", {
+      params: {
+        useSuggestions: "true",
+        showBest: "true",
+        sort: "fromprice",
+        port: req.query.port,
+        dest: req.query.dest,
+        dur: req.query.dur,
+        pastGuest: req.query.pastGuest || false,
+        numAdults: req.query.numAdults || 2,
+        pageNumber: req.query.pageNumber || 1,
+        pageSize: req.query.pageSize || 8
+      }
+    })
+    .then(resp => res.send(resp.data.results.itineraries));
 });
 
 app.use(routes);
