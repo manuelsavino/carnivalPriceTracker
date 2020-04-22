@@ -3,6 +3,9 @@ const db = require("../models");
 module.exports = {
   newTracker(req, res) {
     const { url } = req.params;
+    if (url.indexOf("https") != -1) {
+      url = url.substring(url.indexOf("www"));
+    }
     const Itinerary = { url, date: Date.now() };
     db.Itinerary.create(Itinerary, (err, Itinerary) => {
       if (err) {
@@ -62,5 +65,5 @@ module.exports = {
     db.Itinerary.findOneAndDelete({ _id }, (err, deleted) => {
       res.json(deleted);
     });
-  }
+  },
 };
