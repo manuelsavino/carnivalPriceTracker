@@ -3,7 +3,8 @@ const mongoose = require("mongoose"),
 
 const userSchema = new Schema({
   itineraries: [{ type: String, ref: "Itinerary" }],
-  identifier: String
+  user_id: String,
+  email: { type: String, unique: true },
 });
 
 const User = mongoose.model("User", userSchema);

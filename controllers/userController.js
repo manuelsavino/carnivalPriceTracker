@@ -1,17 +1,36 @@
 const db = require("../models");
-var faker = require("faker");
+const admin = require("firebase-admin");
+const serviceAccount = require("../key.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://react-auth-e2ca4.firebaseio.com",
+});
 
 module.exports = {
   createNewUser(req, res) {
-    const user = {
-      identifier: `${faker.random.word()}${faker.random.number()}`
-    };
-    db.User.create(user, (err, user) => {
-      if (err) {
-        console.log(err);
-      }
-      res.json(user);
-    });
+    const { jwt } = req.params;
+
+    admin
+      .auth()
+      .verifyIdToken(jwt)
+      .then(function (decodedToken) {
+        let { uid, email } = decodedToken;
+        const user = {
+          user_id: uid,
+          email,
+        };
+        db.User.create(user, (err, user) => {
+          if (err) {
+            console.log(err);
+          }
+          res.json(user);
+        });
+        console.log(decodedToken);
+      })
+      .catch(function (error) {
+        // Handle error
+      });
   },
   getAll(req, res) {
     db.User.find({}, (err, users) => {
@@ -23,5 +42,5 @@ module.exports = {
     db.User.findOne({ identifier }, (err, user) => {
       res.json(user);
     });
-  }
+  },
 };

@@ -16,7 +16,7 @@ PriceCheck.checkprice();
 
 app.get("/search", cors(), (req, res) => {
   axios
-    .get("https://www.carnival.com/CruiseSearch/api/search?pastGuest=true", {
+    .get("https://www.carnival.com/CruiseSearch/api/search?", {
       params: {
         useSuggestions: "true",
         showBest: "true",
@@ -24,13 +24,14 @@ app.get("/search", cors(), (req, res) => {
         port: req.query.port,
         dest: req.query.dest,
         dur: req.query.dur,
+        excludeResults: req.query.excludeResults || false,
         pastGuest: req.query.pastGuest || false,
         numAdults: req.query.numAdults || 2,
         pageNumber: req.query.pageNumber || 1,
         pageSize: req.query.pageSize || 8,
       },
     })
-    .then((resp) => res.send(resp.data.results.itineraries));
+    .then((resp) => res.send(resp.data));
 });
 
 app.use(routes);
