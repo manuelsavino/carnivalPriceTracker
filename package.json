@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "firebase": "^7.14.1",
-    "firebase-admin": "^8.11.0",
+    "firebase-admin": "^11.4.1",
     "mongoose": "^5.8.11",
     "node-cron": "^2.0.3",
     "puppeteer": "^2.1.0"
